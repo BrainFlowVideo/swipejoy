@@ -1,5 +1,5 @@
 /* SwipeJoy service worker: opens offline after the first visit. Bump CACHE to force an update. */
-const CACHE = 'swipejoy-v3';
+const CACHE = 'swipejoy-v4';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 const CDN = [
   'https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js',

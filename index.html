@@ -101,7 +101,9 @@ button{cursor:pointer}
 .bgart .sun{fill:var(--gold);opacity:.2}
 .screen{position:relative;z-index:1;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:16px 20px 20px;display:flex;flex-direction:column;gap:16px;scrollbar-width:none}
 .screen::-webkit-scrollbar{display:none}
-.view{display:flex;flex-direction:column;gap:16px;flex:1;min-height:0;animation:viewIn .4s ease both}
+.view{display:flex;flex-direction:column;gap:16px;flex:1 0 auto;animation:viewIn .4s ease both}
+.view>*{flex-shrink:0}
+.view>.stage{flex-shrink:1}
 @keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 .glass{background:var(--glass);border:1px solid var(--glass-b);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-radius:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 14px 30px -18px var(--shadow)}
@@ -304,6 +306,20 @@ button.tile:active{transform:scale(.97)}
 .logcard li:first-child{border-top:0}
 .logcard .t{font-family:var(--display);font-size:16px;line-height:1.3}
 .logcard .m{font-size:12px;color:var(--muted)}
+/* ---------- shareable card (affirmations inside the arch) ---------- */
+.share{background:linear-gradient(180deg,#1b0e45 0%,#4b1f66 52%,#b9567e 80%,#f0b27a 100%);padding:80px 30px 20px;justify-content:flex-start}
+.share>.tw{position:absolute;color:#ffe9b8;opacity:.6;animation:twinkle 3.6s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:.9;transform:scale(1.15)}}
+.affs{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;width:100%;margin-bottom:12px}
+.affwrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+.shaff{font-family:var(--display);font-size:20px;line-height:1.28;color:#fff8f0;text-wrap:balance;text-shadow:0 1px 14px rgba(20,8,50,.45);font-variation-settings:"opsz" 48}
+.orn{display:flex;align-items:center;gap:10px;width:58%;color:#ffe3a6}
+.orn::before,.orn::after{content:"";flex:1;height:1px;background:rgba(255,236,190,.45)}
+.share .foot{width:100%;justify-content:space-between;color:#3a1650;font-weight:700}
+.share .foot .chip{background:rgba(255,255,255,.55);border-color:rgba(58,22,80,.18);color:#3a1650}
+.nudge .knob{flex:none;margin-left:auto}
+.nudge[aria-checked="true"] .knob{background:linear-gradient(120deg,var(--btn-a),var(--btn-b))}
+.nudge[aria-checked="true"] .knob::after{transform:translateX(20px)}
 @media (max-height:720px){.greet{font-size:23px}.hint{display:none}.heartbtn{width:72px;height:72px}.passbtn{width:52px;height:52px}.screen{gap:12px}.view{gap:12px}}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -477,6 +493,7 @@ function Onboarding(props){
     var done = function(p){ setNotif(p === 'granted' ? 'granted' : 'denied'); };
     try { var r = Notification.requestPermission(); if (r && r.then) r.then(done, function(){ setNotif('denied'); }); else done(r); } catch(e){ setNotif('denied'); }
   };
+  var toggleNotif = function(){ if (notif === 'granted') { setNotif('idle'); return; } askNotif(); };
   var finish = function(){ props.onDone({ name: name.trim() || 'Friend', reminderOn: notif === 'granted', notifPerm: notif === 'granted' ? 'granted' : 'default' }); };
   var nudgeText = notif === 'granted' ? 'Reminders are on for 8:00 AM.' : notif === 'denied' ? 'Notifications are blocked here. You can turn them on later in your profile.' : notif === 'unsupported' ? 'This browser has no notifications. Add SwipeJoy to your Home Screen for the best experience.' : 'Get a gentle nudge each morning to build a gratitude practice.';
   var slides = [
@@ -496,9 +513,10 @@ function Onboarding(props){
               <label htmlFor="name-input">Your name</label>
               <input id="name-input" className="field" type="text" autoComplete="given-name" maxLength="24" placeholder="What should we call you?" value=${name} onChange=${function(e){ setName(e.target.value); }} onKeyDown=${function(e){ if (e.key==='Enter') finish(); }} />
             </div>`}
-          ${i===2 && html`<button type="button" className="nudge glass" onClick=${askNotif} disabled=${notif==='granted'}>
-              <span className="ic"><${Icon} n=${notif==='granted'?'check':'bell'} size=${18}/></span>
-              <span><b>${notif==='granted'?'Daily reminders on':'Allow daily reminders'}</b>${nudgeText}</span>
+          ${i===2 && html`<button type="button" role="switch" aria-checked=${notif==='granted'} className="nudge glass" onClick=${toggleNotif}>
+              <span className="ic"><${Icon} n="bell" size=${18}/></span>
+              <span><b>Allow daily reminders</b>${nudgeText}</span>
+              <span className="knob"></span>
             </button>`}
         </section>`;
       })}
@@ -662,12 +680,14 @@ function Complete(props){
     </div>
     <div className="share" id="share-card">
       <svg className="deco" viewBox="0 0 340 190" aria-hidden="true"><circle cx="170" cy="190" r="34" fill="rgba(255,226,160,.6)"/>${arcs}</svg>
-      <div className="word"><${Icon} n="sparkles" size=${14}/>SwipeJoy</div>
-      <div className="badge"><${Icon} n="check" size=${30} sw=${2.6}/></div>
-      <h2>Three sparks of joy</h2>
-      <p style=${{fontSize:'12px',letterSpacing:'.14em',textTransform:'uppercase',color:'#ffe3a6',fontWeight:600}}>${prettyDate(todayKey(new Date(now)),{weekday:'long',month:'long',day:'numeric'})}</p>
-      <ul>${hearts.map(function(h,i){ return html`<li key=${i}>${h.text}</li>`; })}</ul>
-      <div className="foot"><span className="chip"><${Icon} n="flame" size=${13} fill="currentColor"/>Day ${s.streak} streak</span><span>swipejoy</span></div>
+      <span className="tw" style=${{ left:'21%', top:'15%', animationDelay:'0s' }} aria-hidden="true"><${Icon} n="star" size=${10} fill="currentColor"/></span>
+      <span className="tw" style=${{ right:'19%', top:'21%', animationDelay:'1.2s' }} aria-hidden="true"><${Icon} n="star" size=${13} fill="currentColor"/></span>
+      <span className="tw" style=${{ left:'9%', top:'44%', animationDelay:'2.1s' }} aria-hidden="true"><${Icon} n="star" size=${9} fill="currentColor"/></span>
+      <span className="tw" style=${{ right:'8%', top:'52%', animationDelay:'.6s' }} aria-hidden="true"><${Icon} n="star" size=${11} fill="currentColor"/></span>
+      <div className="affs">${hearts.map(function(h, i){
+        return html`<div key=${i} className="affwrap">${i > 0 ? html`<div className="orn" aria-hidden="true"><${Icon} n="star" size=${10} fill="currentColor"/></div>` : null}<p className="shaff">${h.text}</p></div>`;
+      })}</div>
+      <div className="foot"><span className="chip"><${Icon} n="flame" size=${13} fill="currentColor"/>Day ${s.streak} streak</span><span>${prettyDate(todayKey(new Date(now)), { weekday:'short', month:'short', day:'numeric' })}</span></div>
     </div>
     <div className="socials">
       <p className="hint">Screenshot this card and share it to your story.</p>
