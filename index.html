@@ -320,6 +320,12 @@ button.tile:active{transform:scale(.97)}
 .nudge .knob{flex:none;margin-left:auto}
 .nudge[aria-checked="true"] .knob{background:linear-gradient(120deg,var(--btn-a),var(--btn-b))}
 .nudge[aria-checked="true"] .knob::after{transform:translateX(20px)}
+/* iPhone Safari: keep the time picker inside its card */
+.stack{min-width:0}
+.rem{min-width:0}
+input[type="time"].field{-webkit-appearance:none;appearance:none;display:block;width:100%;min-width:0;max-width:100%;min-height:52px;text-align:left}
+input[type="time"].field::-webkit-date-and-time-value{text-align:left;margin:0;min-height:1.4em}
+input[type="time"].field::-webkit-datetime-edit{padding:0}
 @media (max-height:720px){.greet{font-size:23px}.hint{display:none}.heartbtn{width:72px;height:72px}.passbtn{width:52px;height:52px}.screen{gap:12px}.view{gap:12px}}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -665,12 +671,6 @@ function Session(props){
 /* ---------- completion ---------- */
 function Complete(props){
   var s = props.s, now = props.now, hearts = s.today.hearts;
-  var cs = useState('idle'), copyState = cs[0], setCopy = cs[1];
-  var caption = 'Day '+s.streak+' of finding joy with SwipeJoy ✨\n\n'+hearts.map(function(h){ return '• '+h.text; }).join('\n');
-  var copy = function(){
-    var ok = function(){ setCopy('copied'); setTimeout(function(){ setCopy('idle'); }, 2200); };
-    try { navigator.clipboard.writeText(caption).then(ok, function(){ setCopy('manual'); }); } catch(e){ setCopy('manual'); }
-  };
   var arcs = [50,80,110,140,170].map(function(r,i){ return html`<path key=${i} d=${'M'+(170-r)+' 190a'+r+' '+r+' 0 0 1 '+(2*r)+' 0'} fill="none" stroke="rgba(255,236,190,.4)" strokeWidth="1"/>`; });
   var name = s.name || 'Friend';
   return html`<div className="view">
@@ -694,9 +694,7 @@ function Complete(props){
       <div className="socrow">
         <a className="soc glass" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><${Icon} n="insta" size=${18}/>Instagram</a>
         <a className="soc glass" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer"><${Icon} n="tiktok" size=${18}/>TikTok</a>
-        <button type="button" className="soc glass" onClick=${copy}><${Icon} n=${copyState==='copied'?'check':'copy'} size=${18}/>${copyState==='copied'?'Copied':'Copy caption'}</button>
       </div>
-      ${copyState==='manual' && html`<textarea className="field cap" readOnly autoFocus value=${caption} aria-label="Caption to copy" onFocus=${function(e){ e.target.select(); }}></textarea>`}
     </div>
     <div className="count glass">
       <span className="eyebrow">Next joy unlocks in</span>
