@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Figtree:wght@400;500;600;700&display=swap">
 <style>
 *,*::before,*::after{box-sizing:border-box}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure,blockquote{margin:0}
 :root{padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
 body{margin:0}
 [hidden]{display:none!important}
@@ -307,7 +308,7 @@ button.tile:active{transform:scale(.97)}
 .logcard .t{font-family:var(--display);font-size:16px;line-height:1.3}
 .logcard .m{font-size:12px;color:var(--muted)}
 /* ---------- shareable card (affirmations inside the arch) ---------- */
-.share{background:linear-gradient(180deg,#1b0e45 0%,#4b1f66 52%,#b9567e 80%,#f0b27a 100%);padding:80px 30px 20px;justify-content:flex-start}
+.share{background:linear-gradient(180deg,var(--sh0,#1b0e45) 0%,var(--sh1,#4b1f66) 52%,var(--sh2,#b9567e) 80%,var(--sh3,#f0b27a) 100%);padding:80px 30px 20px;justify-content:flex-start}
 .share>.tw{position:absolute;color:#ffe9b8;opacity:.6;animation:twinkle 3.6s ease-in-out infinite}
 @keyframes twinkle{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:.9;transform:scale(1.15)}}
 .affs{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;width:100%;margin-bottom:12px}
@@ -326,6 +327,73 @@ button.tile:active{transform:scale(.97)}
 input[type="time"].field{-webkit-appearance:none;appearance:none;display:block;width:100%;min-width:0;max-width:100%;min-height:52px;text-align:left}
 input[type="time"].field::-webkit-date-and-time-value{text-align:left;margin:0;min-height:1.4em}
 input[type="time"].field::-webkit-datetime-edit{padding:0}
+/* ---------- joy points + shop ---------- */
+.chips{display:flex;gap:8px;flex:none;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+.jpchip{color:var(--text);font-family:inherit;font-size:15px;cursor:pointer}
+.chips .streak{padding:8px 12px;gap:6px;font-size:14px}
+.chips .streak svg{flex:none}
+.jpin{display:inline-flex;align-items:center;gap:7px;animation:jpbump .65s cubic-bezier(.2,1.6,.4,1)}
+.jpin.still{animation:none}
+@keyframes jpbump{0%{transform:scale(1)}35%{transform:scale(1.3)}100%{transform:scale(1)}}
+.coin{display:inline-grid;place-items:center;flex:none;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3c9,#f4cb7e 55%,#e39a5a);color:#6b3a10;box-shadow:inset 0 -2px 3px rgba(150,80,20,.35),0 1px 4px rgba(0,0,0,.25)}
+.medal{display:inline-grid;place-items:center;flex:none;border-radius:50%;color:#2a1245;box-shadow:inset 0 0 0 2px rgba(255,255,255,.6),0 8px 16px -8px rgba(0,0,0,.55);vertical-align:middle}
+.medal.locked{filter:grayscale(.85) brightness(.8);opacity:.6}
+.gbadge{display:inline-block;margin-left:6px;vertical-align:-3px}
+.avatarwrap{position:relative;flex:none}
+.abadge{position:absolute;right:-8px;bottom:-6px}
+.ptpop{position:absolute;left:0;top:0;z-index:6;display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;font-weight:800;font-size:22px;white-space:nowrap;background:linear-gradient(120deg,var(--btn-a),var(--btn-b));color:var(--btn-ink);box-shadow:0 12px 28px -8px var(--glow);animation:ptpop 1.25s ease-out forwards;pointer-events:none}
+@keyframes ptpop{0%{transform:translate(-50%,-30%) scale(.4);opacity:0}18%{transform:translate(-50%,-90%) scale(1.15);opacity:1}70%{opacity:1}100%{transform:translate(-50%,-200%) scale(1);opacity:0}}
+.flycoin{position:absolute;left:0;top:0;z-index:6;opacity:0;pointer-events:none;animation:flyc .75s cubic-bezier(.45,0,.25,1) forwards}
+@keyframes flyc{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}12%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}55%{opacity:1;transform:translate(calc(-50% + var(--tx)*.4 + var(--wob)),calc(-50% + var(--ty)*.6)) scale(1)}100%{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(.55);opacity:.15}}
+.notices{display:flex;flex-direction:column;gap:10px}
+.notice{display:flex;align-items:center;gap:12px;padding:12px 14px;font-size:13.5px;line-height:1.35;border-radius:18px}
+.notice .ic{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(130deg,var(--btn-a),var(--btn-b));color:var(--btn-ink)}
+.notice .ic.ice{background:linear-gradient(140deg,#cfeeff,#8fc7ff);color:#10315a}
+.notice>span:nth-child(2){flex:1;min-width:0}
+.notice button{flex:none;background:none;border:0;color:var(--muted);font-weight:700;font-size:13px;padding:8px 4px}
+.notice button.go{color:var(--text)}
+.reward{position:relative;overflow:hidden;padding:20px 18px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;border-radius:26px}
+.reward>*:not(.rain){position:relative;z-index:1}
+.rain{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.rain .rc{position:absolute;top:-30px;opacity:0;animation:rainfall 2.2s ease-in both}
+@keyframes rainfall{0%{transform:translateY(0) rotate(0);opacity:0}12%{opacity:1}100%{transform:translateY(360px) rotate(320deg);opacity:0}}
+.rtotal{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:54px;line-height:1;font-variant-numeric:tabular-nums}
+.rlines{list-style:none;margin:0;padding:0;width:100%;display:flex;flex-direction:column}
+.rlines li{display:flex;justify-content:space-between;gap:12px;padding:9px 2px;border-top:1px solid var(--faint);font-size:14.5px;text-align:left;opacity:0;animation:rowIn .5s ease both}
+.rlines li b{font-variant-numeric:tabular-nums;color:var(--gold)}
+.rlines li.star{font-weight:700}
+@keyframes rowIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.unlock{display:flex;align-items:center;gap:10px;padding:8px 14px 8px 8px;border-radius:999px;background:var(--glass);border:1px solid var(--gold);font-size:13px;font-weight:600;text-align:left;opacity:0;animation:rowIn .5s ease both}
+.wallet{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-radius:26px}
+.wnum{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:46px;line-height:1.05;font-variant-numeric:tabular-nums}
+.wfz{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;font-weight:700;font-size:14px;flex:none}
+.how{padding:0 16px;border-radius:18px;font-size:14px}
+.how summary{padding:13px 0;font-weight:600;cursor:pointer}
+.how ul{margin:0;padding:0 0 14px 18px;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+.seg.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.panel{display:flex;flex-direction:column;gap:12px;animation:viewIn .35s ease both}
+.item{position:relative;overflow:hidden;padding:14px;display:flex;flex-direction:column;gap:12px;border-radius:22px}
+.item.active{border-color:var(--gold)}
+.irow{display:flex;gap:14px;align-items:center}
+.ibody{min-width:0;display:flex;flex-direction:column;gap:3px}
+.item h3{font-family:var(--display);font-weight:400;font-size:19px;line-height:1.2}
+.item p{color:var(--muted);font-size:13.5px;line-height:1.4}
+.item p.sample{font-family:var(--display);font-size:15px;line-height:1.35;color:var(--text)}
+.fvis{flex:none;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(140deg,#cfeeff,#8fc7ff);color:#10315a}
+.deckvis{flex:none;width:52px;height:68px;border-radius:26px 26px 10px 10px;display:grid;place-items:center;color:#fff8f0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.sbtn{width:100%;padding:11px 14px;font-size:14px;min-height:44px}
+.sbtn.on{opacity:.85}
+.lockline{display:flex;align-items:flex-start;gap:6px;font-size:12.5px;line-height:1.35;color:var(--muted);padding:6px 2px}
+.lockline svg{flex:none;margin-top:1px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tile2{text-align:left;justify-content:space-between}
+.swatch{position:relative;height:96px;border-radius:70px 70px 12px 12px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.swatch i{position:absolute;left:50%;bottom:-16px;width:46px;height:46px;margin-left:-23px;border-radius:50%}
+.medalrow{display:flex;justify-content:center;padding:6px 0 2px}
+.bought{animation:boughtGlow 1.2s ease}
+@keyframes boughtGlow{0%{box-shadow:0 0 0 0 var(--glow)}30%{box-shadow:0 0 0 6px var(--glow),0 0 40px 6px var(--glow)}100%{box-shadow:0 0 0 0 transparent}}
+.day.frozen{background:linear-gradient(140deg,#cfeeff,#8fc7ff);color:#10315a}
+.snowy{position:absolute;top:2px;right:2px;display:grid;place-items:center;color:#10315a}
 @media (max-height:720px){.greet{font-size:23px}.hint{display:none}.heartbtn{width:72px;height:72px}.passbtn{width:52px;height:52px}.screen{gap:12px}.view{gap:12px}}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -376,6 +444,29 @@ var GROUPS = [
 ];
 var ALL = [];
 GROUPS.forEach(function(g){ g.stems.forEach(function(s){ g.ends.forEach(function(e){ ALL.push({ text: s + " " + e + ".", theme: g.theme }); }); }); });
+/* ---- Joy Points rules ---- */
+var HEART_PTS = 3, DAILY_PTS = 5, FREEZE_COST = 60, FREEZE_MAX = 2;
+var MILESTONES = { 3:50, 7:100, 30:500, 100:2000 };
+function multFor(streak){ return streak >= 30 ? 5 : streak >= 14 ? 3 : streak >= 7 ? 2 : streak >= 3 ? 1.5 : 1; }
+
+/* ---- decks: four new 100-card decks, plus a Gratitude Garden pulled from the classic set ---- */
+function mkDeck(name, stems, ends){ var out = []; stems.forEach(function(a){ ends.forEach(function(e){ out.push({ text: a + " " + e + ".", theme: name }); }); }); return out; }
+var DECK_POOLS = {
+  classic: ALL,
+  garden: ALL.filter(function(c){ return c.theme === "Gratitude" || c.theme === "Kindness"; }),
+  morning: mkDeck("Morning Glow",
+    ["This morning I choose to","As the day begins, I will","With the sunrise, I get to","I wake up ready to","Today I am excited to","With my first breath, I choose to","I greet the morning and promise to","The new day invites me to","I step into today ready to","Right now I am ready to"],
+    ["begin with a gentle heart","move at a pace that feels good","notice one beautiful thing","do what matters most","speak kindly to myself","welcome whatever comes","take a deep, easy breath","make room for joy","trust my own timing","let the light in"]),
+  evening: mkDeck("Evening Exhale",
+    ["Tonight I give myself permission to","As the day winds down, I am free to","With every slow breath, I am ready to","I close this day and choose to","Before I sleep, I promise to","The evening invites me to","I have done enough today, so I can","As the stars come out, I am able to","In the quiet of tonight, I get to","I end today by choosing to"],
+    ["let the day go","rest without guilt","soften my shoulders","release what I cannot change","be proud of how far I have come","breathe out the worries","feel grateful for small things","drift into peaceful sleep","forgive myself for any mistakes","welcome the stillness"]),
+  brave: mkDeck("Brave Heart",
+    ["I have the courage to","I am strong enough to","I trust myself to","I am brave enough to","Even when I am nervous, I can","I give myself credit for daring to","My heart is bold enough to","I am proud that I get to","One step at a time, I will","I do not need permission to"],
+    ["take up space","try something new","ask for what I want","say what I really feel","start before I feel ready","walk away from what hurts","stand tall in who I am","make my own path","bet on my dreams","begin again today"]),
+  selflove: mkDeck("Self-Love Notes",
+    ["I love","I appreciate","I am proud of","I honor","I celebrate","I cherish","I admire","I respect","I am grateful for","I embrace"],
+    ["the way I care for others","my gentle heart","how far I have come","my quirky sense of humor","the person I am becoming","my own unique rhythm","the softness in my voice","my curious mind","all the parts of me","my strength and my sensitivity"])
+};
 //#ENDDATA
 
 (function(){
@@ -396,25 +487,139 @@ var hello = function(now){ var h = new Date(now).getHours(); return h<12 ? 'Good
 
 function hashStr(str){ var h = 1779033703 ^ str.length; for (var i=0;i<str.length;i++){ h = Math.imul(h ^ str.charCodeAt(i), 3432918353); h = h<<13 | h>>>19; } return h>>>0; }
 function mulberry32(a){ return function(){ a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a>>>15, 1 | a); t = t + Math.imul(t ^ t>>>7, 61 | t) ^ t; return ((t ^ t>>>14)>>>0) / 4294967296; }; }
-function buildDeck(key){
-  var rnd = mulberry32(hashStr('swipejoy-'+key));
-  var idx = ALL.map(function(_,i){ return i; });
+function buildDeck(key, deckId){
+  deckId = deckId || 'classic';
+  var pool = DECK_POOLS[deckId] || ALL;
+  var rnd = mulberry32(hashStr(deckId === 'classic' ? 'swipejoy-'+key : 'swipejoy-'+deckId+'-'+key));
+  var idx = pool.map(function(_,i){ return i; });
   for (var i=idx.length-1;i>0;i--){ var j = Math.floor(rnd()*(i+1)); var t = idx[i]; idx[i] = idx[j]; idx[j] = t; }
-  return idx.slice(0,120).map(function(i){ return ALL[i]; });
+  return idx.slice(0,120).map(function(i){ return pool[i]; });
 }
 
 /* ---------- storage ---------- */
 var KEY = 'swipejoy:v1';
 var DEFAULT = { onboarded:false, name:'', mantra:'', reminderTime:'08:00', reminderOn:false, notifPerm:'default', lastNotified:null, theme:'system',
-  streak:0, bestStreak:0, lastCompleted:null, completedDays:[], totalHearts:0, history:[], today:{ date:null, hearts:[], pos:0, done:false } };
+  streak:0, bestStreak:0, lastCompleted:null, completedDays:[], totalHearts:0, history:[],
+  points:0, lifetimePoints:0, pointsInit:false, welcome:0, freezes:0, frozenDays:[],
+  owned:['deck:classic','theme:sunrise'], activeDeck:'classic', activePalette:'sunrise', activeBadge:null, notice:null,
+  today:{ date:null, hearts:[], pos:0, done:false, earned:0, breakdown:null } };
 function load(){ try { var raw = localStorage.getItem(KEY); if (raw) return Object.assign({}, DEFAULT, JSON.parse(raw)); } catch(e){} return Object.assign({}, DEFAULT); }
 function save(s){ try { localStorage.setItem(KEY, JSON.stringify(s)); } catch(e){} }
-function normalize(p){
-  var t = todayKey(), y = yesterdayKey(), n = Object.assign({}, p);
-  if (!n.today || n.today.date !== t) n.today = { date:t, hearts:[], pos:0, done:false };
-  if (n.streak > 0 && n.lastCompleted !== t && n.lastCompleted !== y) n.streak = 0;
+
+/* People who played before Joy Points existed get a welcome gift for the hearts they already collected. */
+function migrate(p){
+  var n = Object.assign({}, p);
+  if (!n.pointsInit) {
+    var start = (n.totalHearts || 0) * HEART_PTS + (n.completedDays || []).length * DAILY_PTS;
+    n.points = start; n.lifetimePoints = start; n.welcome = start; n.pointsInit = true;
+  }
   return n;
 }
+
+/* Runs on load and at midnight. Starts a fresh day, and spends streak freezes on missed days if the player owns enough. */
+function normalize(p){
+  var t = todayKey(), y = yesterdayKey(), n = Object.assign({}, p);
+  if (!n.today || n.today.date !== t) n.today = { date:t, hearts:[], pos:0, done:false, earned:0, breakdown:null };
+  if (n.streak > 0 && n.lastCompleted !== t && n.lastCompleted !== y) {
+    var missed = [];
+    if (n.lastCompleted) {
+      var d = new Date(n.lastCompleted + 'T00:00:00'); d.setDate(d.getDate() + 1);
+      var last = new Date(y + 'T00:00:00');
+      while (d <= last) { missed.push(dkey(d)); d.setDate(d.getDate() + 1); }
+    }
+    if (missed.length > 0 && missed.length <= (n.freezes || 0)) {
+      n.freezes = n.freezes - missed.length;
+      n.frozenDays = (n.frozenDays || []).concat(missed);
+      n.lastCompleted = y;
+      n.notice = { type:'freeze', count:missed.length };
+    } else {
+      n.streak = 0;
+    }
+  }
+  return n;
+}
+
+/* One heart: +3 points. The third heart finishes the day: +5 bonus, a streak multiplier on the day's total, and any milestone bonus. */
+function applyHeart(p, c, ts){
+  var td = Object.assign({}, p.today, { pos: p.today.pos + 1 });
+  var hs = p.today.hearts.concat([{ text:c.text, theme:c.theme }]);
+  td.hearts = hs;
+  td.earned = (p.today.earned || 0) + HEART_PTS;
+  var out = {
+    today: td, totalHearts: p.totalHearts + 1,
+    points: (p.points || 0) + HEART_PTS, lifetimePoints: (p.lifetimePoints || 0) + HEART_PTS,
+    history: [{ text:c.text, theme:c.theme, date:todayKey(), ts:ts }].concat(p.history).slice(0,1000)
+  };
+  if (hs.length >= 3 && !p.today.done) {
+    var base = p.lastCompleted === yesterdayKey() ? p.streak : (p.lastCompleted === todayKey() ? p.streak - 1 : 0);
+    var streak = p.lastCompleted === todayKey() ? p.streak : base + 1;
+    var mult = multFor(streak);
+    var hp = hs.length * HEART_PTS;
+    var multBonus = Math.round((hp + DAILY_PTS) * (mult - 1));
+    var ms = MILESTONES[streak] || 0;
+    var extra = DAILY_PTS + multBonus + ms;
+    td.done = true;
+    td.earned += extra;
+    td.breakdown = { hearts:hp, daily:DAILY_PTS, mult:mult, multBonus:multBonus, milestone:ms, streak:streak, total:hp + extra };
+    out.points += extra; out.lifetimePoints += extra;
+    out.streak = streak; out.bestStreak = Math.max(p.bestStreak, streak); out.lastCompleted = todayKey();
+    out.completedDays = (p.completedDays || []).filter(function(k){ return k !== todayKey(); }).concat([todayKey()]);
+  }
+  return out;
+}
+
+/* ---------- shop catalog ---------- */
+var DECKS = [
+  { id:'classic', name:'Classic Mix', blurb:'Ten themes and a thousand affirmations, shuffled fresh each day.', cost:0, hue:['#241150','#f59bb4'] },
+  { id:'garden', name:'Gratitude Garden', blurb:'Appreciation and kindness, for noticing what is already good.', cost:100, hue:['#14523a','#bff0a8'] },
+  { id:'morning', name:'Morning Glow', blurb:'Gentle intentions to start the day well.', cost:120, hue:['#5a2a4a','#ffd98a'] },
+  { id:'evening', name:'Evening Exhale', blurb:'Slow, soft words for winding down.', cost:120, hue:['#0f1f4a','#bba8f7'] },
+  { id:'brave', name:'Brave Heart', blurb:'Courage for the days you need a little push.', cost:150, hue:['#5a1f3a','#ff9a5c'] },
+  { id:'selflove', name:'Self-Love Notes', blurb:'Little love letters to yourself.', cost:150, hue:['#5a1f50','#ff9bbb'] }
+];
+var PAL_BASE = ['--bg0','--bg1','--bg2','--page','--glowsoft','--glow','--gold','--lav','--btn-a','--btn-b'];
+var PAL_SHARE = ['--sh0','--sh1','--sh2','--sh3'];
+var PALETTE_KEYS = PAL_BASE.concat(PAL_SHARE);
+function pal(name, cost, d, l, sh){
+  var dk = {}, lt = {};
+  PAL_BASE.forEach(function(k,i){ dk[k] = d[i]; lt[k] = l[i]; });
+  PAL_SHARE.forEach(function(k,i){ dk[k] = sh[i]; lt[k] = sh[i]; });
+  return { name:name, cost:cost, dark:dk, light:lt };
+}
+var PALETTES = {
+  sunrise: { name:'Sunrise', cost:0, dark:{ '--bg0':'#0e0925', '--bg1':'#241150', '--bg2':'#5a2166', '--glow':'#f59bb4', '--gold':'#f4cb7e' } },
+  dusk: pal('Dusk Lavender', 100,
+    ['#0b0d2a','#2a1b63','#6c4fb3','#060718','rgba(187,168,247,.4)','#bba8f7','#d9c8ff','#9fd0ff','#e5d6ff','#9d8cf2'],
+    ['#f3eeff','#e3dafc','#cfc3f3','#e6defa','rgba(150,120,230,.35)','#9d8cf2','#6a4bc4','#5b6fd6','#d9ccff','#a897f5'],
+    ['#130f3a','#3a2a85','#7d63c9','#d8c6ff']),
+  rose: pal('Rose Quartz', 100,
+    ['#240b24','#5a1f50','#b44d78','#12061a','rgba(255,160,190,.42)','#ff9bbb','#ffd9b0','#e6a8f0','#ffe1c2','#ff8fb4'],
+    ['#fff0f3','#ffd9e4','#f6bcd3','#fbe3ea','rgba(255,120,160,.35)','#f0719a','#b04a2f','#a84fb4','#ffe0c8','#ff9fbf'],
+    ['#2c0f33','#7a2a68','#d9628c','#ffc7a0']),
+  golden: pal('Golden Hour', 150,
+    ['#1b0f2e','#5a2a4a','#c76a3a','#0e0618','rgba(255,170,90,.42)','#ffb066','#ffd98a','#ffb8a8','#ffe7a0','#ff9a5c'],
+    ['#fff3df','#ffe0b8','#f8c392','#f6e4cc','rgba(255,150,70,.35)','#f08c4a','#a85a0a','#c45a5a','#ffe7a8','#ffab70'],
+    ['#261038','#6b2c52','#d4743e','#ffcf7d']),
+  sea: pal('Sea Glass', 150,
+    ['#06161f','#0f3d4a','#2f8f86','#030c12','rgba(120,230,200,.35)','#7de3c8','#f2e6a8','#8fd0ff','#d9f7e6','#6fd8c0'],
+    ['#eefaf5','#d2f1e6','#aee2d2','#dff3ec','rgba(80,200,170,.35)','#4fc3a6','#2e7a63','#3a82b8','#d6f7e8','#7ddcc3'],
+    ['#08202a','#14515c','#38a198','#bdf0d4']),
+  bloom: pal('Midnight Bloom', 200,
+    ['#05040f','#1a0f3a','#5b1f6b','#020108','rgba(255,80,190,.38)','#ff5fc0','#f6c1ff','#8f7bff','#ffc2ee','#c06bff'],
+    ['#fbeeff','#efd2fb','#dcaaf2','#f1dcfa','rgba(200,80,190,.3)','#c850c0','#8a2f9a','#5a46c8','#f6c8ff','#cf80f0'],
+    ['#0a0620','#2c1060','#7a2a86','#ff8fd0'])
+};
+var BADGES = [
+  { id:'sunrise', name:'Sunrise Pin', icon:'sun', grad:['#ffe7a8','#f59bb4'], cost:40 },
+  { id:'sprout', name:'Little Sprout', icon:'leaf', grad:['#d9f7b8','#7fd6a0'], cost:60 },
+  { id:'moon', name:'Moonlit', icon:'moon', grad:['#d8ccff','#8d7cf0'], cost:60 },
+  { id:'heart', name:'Open Heart', icon:'heart', grad:['#ffc2d6','#ff7aa2'], cost:80, fill:true },
+  { id:'star', name:'Stargazer', icon:'star', grad:['#fff0b8','#bba8f7'], cost:120, fill:true },
+  { id:'kindled', name:'Kindled', icon:'flame', grad:['#ffe08a','#ff9a5c'], cost:150, req:3 },
+  { id:'week', name:'Golden Week', icon:'trophy', grad:['#fff1b0','#f0b84a'], cost:300, req:7 },
+  { id:'legend', name:'Joy Legend', icon:'sparkles', grad:['#fff3c9','#ff9bd0'], cost:1000, req:30 }
+];
+var badgeById = function(id){ return BADGES.filter(function(b){ return b.id === id; })[0] || null; };
 
 /* ---------- icons (Lucide paths, inlined) ---------- */
 var HEART = 'M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z';
@@ -439,6 +644,9 @@ var ICONS = {
   tiktok:'<path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>',
   share:'<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="m16 6-4-4-4 4"/><path d="M12 2v13"/>',
   chev:'<path d="m9 18 6-6-6-6"/>',
+  snow:'<line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/>',
+  bag:'<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>',
+  lock:'<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
   out:'<path d="M7 7h10v10"/><path d="M7 17 17 7"/>',
   leaf:'<path d="'+LEAF+'"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',
   trophy:'<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>'
@@ -545,34 +753,110 @@ function makeBurst(){
   return { id: Date.now()+Math.random(), parts: parts };
 }
 
+/* ---------- joy points: shared pieces ---------- */
+/* Counts a number up (or down) to its target. Pass from/delay to start from a value after a pause. */
+function useCount(target, o){
+  o = o || {};
+  var init = o.from !== undefined ? o.from : target;
+  var st = useState(init), v = st[0], setV = st[1];
+  var cur = useRef(init);
+  useEffect(function(){
+    var from = cur.current;
+    if (from === target) return;
+    if (prefersReduced()) { cur.current = target; setV(target); return; }
+    var raf = 0, start = null, dur = o.dur || 700;
+    var step = function(ts){
+      if (start === null) start = ts;
+      var t = Math.min(1, (ts - start) / dur);
+      var val = Math.round(from + (target - from) * (1 - Math.pow(1 - t, 3)));
+      cur.current = val; setV(val);
+      if (t < 1) raf = requestAnimationFrame(step);
+    };
+    var to = setTimeout(function(){ raf = requestAnimationFrame(step); }, o.delay || 0);
+    return function(){ clearTimeout(to); cancelAnimationFrame(raf); };
+  }, [target]);
+  return v;
+}
+
+function JoyCoin(props){
+  var z = props.size || 18;
+  return html`<span className="coin" style=${{ width:z+'px', height:z+'px' }} aria-hidden="true"><${Icon} n="star" size=${Math.round(z*.58)} fill="currentColor"/></span>`;
+}
+
+function BadgeMedal(props){
+  var b = badgeById(props.id);
+  if (!b) return null;
+  var z = props.size || 40;
+  return html`<span className=${'medal'+(props.locked?' locked':'')} style=${{ width:z+'px', height:z+'px', background:'linear-gradient(140deg,'+b.grad[0]+','+b.grad[1]+')' }} role="img" aria-label=${b.name+' badge'}><${Icon} n=${b.icon} size=${Math.round(z*.52)} fill=${b.fill ? 'currentColor' : undefined}/></span>`;
+}
+
+/* The balance chip. When the number changes it counts up and bumps. */
+function PointsChip(props){
+  var value = props.value || 0;
+  var shown = useCount(value, { dur:800 });
+  var prev = useRef(value);
+  var bk = useState(0), bump = bk[0], setBump = bk[1];
+  useEffect(function(){
+    if (prev.current !== value) { prev.current = value; setBump(function(b){ return b + 1; }); }
+  }, [value]);
+  return html`<button type="button" className="streak glass jpchip" onClick=${props.onClick} aria-label=${'Joy Points: '+value+'. Open the Joy Shop'}>
+    <span key=${'b'+bump} className=${bump ? 'jpin' : 'jpin still'}><${JoyCoin} size=${20}/><b>${shown}</b></span>
+  </button>`;
+}
+
+function Chips(props){
+  var s = props.s;
+  return html`<div className="chips">
+    <div className="streak glass" aria-label=${s.streak+' day streak'}><${Icon} n="flame" size=${18} fill="currentColor"/><b>${s.streak}</b></div>
+    <${PointsChip} value=${s.points} onClick=${props.onShop}/>
+  </div>`;
+}
+
+function Notices(props){
+  var s = props.s, update = props.update, list = [];
+  if (s.notice && s.notice.type === 'freeze') {
+    list.push(html`<div key="n" className="notice glass" role="status"><span className="ic ice"><${Icon} n="snow" size=${17}/></span><span>${s.notice.count > 1 ? s.notice.count + ' streak freezes were used' : 'A streak freeze was used'} to keep your ${s.streak}-day streak alive.</span><button type="button" onClick=${function(){ update({ notice:null }); }}>Got it</button></div>`);
+  }
+  if (s.welcome > 0) {
+    list.push(html`<div key="w" className="notice glass" role="status"><span className="ic"><${JoyCoin} size=${22}/></span><span>Welcome gift: ${s.welcome} Joy Points for the hearts you already collected. Spend them in the Joy Shop.</span><button type="button" className="go" onClick=${function(){ update({ welcome:0 }); props.onShop(); }}>Visit shop</button><button type="button" onClick=${function(){ update({ welcome:0 }); }} aria-label="Dismiss">Later</button></div>`);
+  }
+  return list.length ? html`<div className="notices">${list}</div>` : null;
+}
+
+/* Three coins arc from the card to the balance chip. */
+function makeFly(el){
+  var dx = 100, dy = -300;
+  try {
+    var chip = document.querySelector('.jpchip'), deck = el && el.parentNode;
+    if (chip && deck) {
+      var a = chip.getBoundingClientRect(), d = deck.getBoundingClientRect();
+      dx = (a.left + a.width / 2) - (d.left + d.width / 2);
+      dy = (a.top + a.height / 2) - (d.top + d.height / 2);
+    }
+  } catch(e){}
+  var coins = [];
+  for (var i = 0; i < 3; i++) coins.push({ id:i, delay:.12 + i * .09, wob:(i - 1) * 28 });
+  return { id:Date.now() + Math.random(), dx:dx, dy:dy, coins:coins };
+}
+
 /* ---------- today's session ---------- */
 function Session(props){
   var s = props.s, update = props.update, now = props.now;
   var t = todayKey(new Date(now));
-  var deck = useMemo(function(){ return buildDeck(t); }, [t]);
+  var deck = useMemo(function(){ return buildDeck(t, s.activeDeck || 'classic'); }, [t, s.activeDeck]);
   var pos = s.today.pos, hearts = s.today.hearts;
   var card = deck[pos % deck.length];
   var topRef = useRef(null), busy = useRef(false), drag = useRef(null);
   var bs = useState([]), bursts = bs[0], setBursts = bs[1];
   var pl = useState(0), pulse = pl[0], setPulse = pl[1];
   var dh = useState(null), dirHint = dh[0], setDirHint = dh[1];
+  var fy = useState([]), flies = fy[0], setFlies = fy[1];
 
   var commit = function(liked, c){
     var ts = Date.now();
     update(function(p){
-      var td = Object.assign({}, p.today, { pos: p.today.pos + 1 });
-      if (!liked) return { today: td };
-      var hs = p.today.hearts.concat([{ text:c.text, theme:c.theme }]);
-      td.hearts = hs;
-      var out = { today: td, totalHearts: p.totalHearts + 1, history: [{ text:c.text, theme:c.theme, date:todayKey(), ts:ts }].concat(p.history).slice(0,1000) };
-      if (hs.length >= 3) {
-        var base = p.lastCompleted === yesterdayKey() ? p.streak : (p.lastCompleted === todayKey() ? p.streak - 1 : 0);
-        var streak = p.lastCompleted === todayKey() ? p.streak : base + 1;
-        td.done = true;
-        out.streak = streak; out.bestStreak = Math.max(p.bestStreak, streak); out.lastCompleted = todayKey();
-        out.completedDays = (p.completedDays || []).filter(function(k){ return k !== todayKey(); }).concat([todayKey()]);
-      }
-      return out;
+      if (!liked) return { today: Object.assign({}, p.today, { pos: p.today.pos + 1 }) };
+      return applyHeart(p, c, ts);
     });
   };
   var fling = function(dir){
@@ -585,12 +869,15 @@ function Session(props){
       el.style.opacity = '0';
     }
     if (dir > 0) {
-      var b = makeBurst();
+      var b = makeBurst(), fly = makeFly(el);
       setBursts(function(x){ return x.concat([b]); });
+      setFlies(function(x){ return x.concat([fly]); });
       setPulse(function(p){ return p+1; });
       setTimeout(function(){ setBursts(function(x){ return x.filter(function(y){ return y.id !== b.id; }); }); }, 1100);
+      setTimeout(function(){ setFlies(function(x){ return x.filter(function(y){ return y.id !== fly.id; }); }); }, 1800);
     }
-    setTimeout(function(){ commit(dir>0, c); busy.current = false; }, dir>0 ? 600 : 400);
+    // the heart that finishes the day waits a little longer so the coins can land on the balance
+    setTimeout(function(){ commit(dir>0, c); busy.current = false; }, dir>0 ? (hearts.length >= 2 ? 1000 : 700) : 400);
   };
 
   useEffect(function(){
@@ -632,9 +919,10 @@ function Session(props){
 
   return html`<div className="view">
     <div className="hdr">
-      <div style=${{minWidth:0}}><h1 className="greet">Hi, ${name} ✨</h1><p className="sub">${sub}</p></div>
-      <div className="streak glass" aria-label=${s.streak+' day streak'}><${Icon} n="flame" size=${18} fill="currentColor"/><b>${s.streak}</b></div>
+      <div style=${{minWidth:0}}><h1 className="greet">Hi, ${name} ✨${s.activeBadge ? html`<span className="gbadge"><${BadgeMedal} id=${s.activeBadge} size=${24}/></span>` : null}</h1><p className="sub">${sub}</p></div>
+      <${Chips} s=${s} onShop=${props.onShop}/>
     </div>
+    <${Notices} s=${s} update=${update} onShop=${props.onShop}/>
     <div className="progress glass">
       <div className="slots" aria-hidden="true">${[0,1,2].map(function(i){ return html`<span key=${i} className=${'slot'+(i<hearts.length?' on':'')}><${Icon} n="heart" size=${22} fill="currentColor"/></span>`; })}</div>
       <span className="txt" aria-live="polite">${hearts.length} of 3 hearts collected</span>
@@ -658,6 +946,12 @@ function Session(props){
             ${b.parts.map(function(p){ return html`<span key=${p.id} className="p" style=${{'--dx':p.dx+'px','--dy':p.dy+'px','--s':p.s,color:p.c,animationDelay:p.d+'s'}}><${Icon} n=${p.heart?'heart':'star'} size=${p.heart?16:14} fill="currentColor"/></span>`; })}
           </div>`;
         })}
+        ${flies.map(function(f){
+          return html`<div className="burst" key=${'f'+f.id} aria-hidden="true">
+            <span className="ptpop">+${HEART_PTS} <${JoyCoin} size=${22}/></span>
+            ${f.coins.map(function(c){ return html`<span key=${c.id} className="flycoin" style=${{'--tx':f.dx+'px','--ty':f.dy+'px','--wob':c.wob+'px',animationDelay:c.delay+'s'}}><${JoyCoin} size=${22}/></span>`; })}
+          </div>`;
+        })}
       </div>
     </div>
     <div className="actions">
@@ -670,14 +964,16 @@ function Session(props){
 
 /* ---------- completion ---------- */
 function Complete(props){
-  var s = props.s, now = props.now, hearts = s.today.hearts;
+  var s = props.s, now = props.now, hearts = s.today.hearts, update = props.update;
   var arcs = [50,80,110,140,170].map(function(r,i){ return html`<path key=${i} d=${'M'+(170-r)+' 190a'+r+' '+r+' 0 0 1 '+(2*r)+' 0'} fill="none" stroke="rgba(255,236,190,.4)" strokeWidth="1"/>`; });
   var name = s.name || 'Friend';
   return html`<div className="view">
     <div className="hdr">
-      <div style=${{minWidth:0}}><h1 className="greet">Joy found, ${name} ✨</h1><p className="sub">Today's goal is locked in. Beautiful work.</p></div>
-      <div className="streak glass"><${Icon} n="flame" size=${18} fill="currentColor"/><b>${s.streak}</b></div>
+      <div style=${{minWidth:0}}><h1 className="greet">Joy found, ${name} ✨${s.activeBadge ? html`<span className="gbadge"><${BadgeMedal} id=${s.activeBadge} size=${24}/></span>` : null}</h1><p className="sub">Today's goal is locked in. Beautiful work.</p></div>
+      <${Chips} s=${s} onShop=${props.onShop}/>
     </div>
+    <${Notices} s=${s} update=${update} onShop=${props.onShop}/>
+    ${s.today.breakdown ? html`<${Reward} b=${s.today.breakdown} onShop=${props.onShop}/>` : null}
     <div className="share" id="share-card">
       <svg className="deco" viewBox="0 0 340 190" aria-hidden="true"><circle cx="170" cy="190" r="34" fill="rgba(255,226,160,.6)"/>${arcs}</svg>
       <span className="tw" style=${{ left:'21%', top:'15%', animationDelay:'0s' }} aria-hidden="true"><${Icon} n="star" size=${10} fill="currentColor"/></span>
@@ -709,6 +1005,138 @@ function Complete(props){
   </div>`;
 }
 
+/* ---------- points breakdown on the completion screen ---------- */
+function Reward(props){
+  var b = props.b;
+  var rows = [
+    { key:'h', label:'3 hearts × '+HEART_PTS, val:b.hearts },
+    { key:'d', label:'Daily goal bonus', val:b.daily }
+  ];
+  if (b.multBonus > 0) rows.push({ key:'m', label:'Streak ×'+b.mult+' · day '+b.streak, val:b.multBonus });
+  if (b.milestone > 0) rows.push({ key:'s', label:b.streak+'-day milestone', val:b.milestone, star:true });
+  var step = .45, first = .35;
+  var total = useCount(b.total, { from:0, delay:(first + rows.length * step) * 1000, dur:1000 });
+  var unlocked = BADGES.filter(function(x){ return x.req === b.streak; })[0];
+  var rain = [];
+  for (var i = 0; i < 14; i++) rain.push(html`<span key=${i} className="rc" style=${{ left:(4 + i * 6.8) + '%', animationDelay:((i % 5) * .13 + (i % 3) * .08) + 's', animationDuration:(1.7 + (i % 4) * .25) + 's' }}><${JoyCoin} size=${16 + (i % 3) * 4}/></span>`);
+  return html`<div className="reward glass">
+    <div className="rain" aria-hidden="true">${rain}</div>
+    <span className="eyebrow">Joy Points earned today</span>
+    <div className="rtotal" aria-label=${'Total earned today: '+b.total}><${JoyCoin} size=${40}/><span>+${total}</span></div>
+    <ul className="rlines">${rows.map(function(r, i){
+      return html`<li key=${r.key} className=${r.star ? 'star' : ''} style=${{ animationDelay:(first + i * step) + 's' }}><span>${r.label}</span><b>+${r.val}</b></li>`;
+    })}</ul>
+    ${unlocked ? html`<p className="unlock" style=${{ animationDelay:(first + rows.length * step + .3) + 's' }}><${BadgeMedal} id=${unlocked.id} size=${26}/>New badge unlocked in the Joy Shop: ${unlocked.name}</p>` : null}
+    <button type="button" className="btn btn-ghost" onClick=${props.onShop}>Spend them in the Joy Shop <${Icon} n="chev" size=${16}/></button>
+  </div>`;
+}
+
+/* ---------- joy shop ---------- */
+function Shop(props){
+  var s = props.s;
+  var t1 = useState('freeze'), sub = t1[0], setSub = t1[1];
+  var t2 = useState(null), confirmKey = t2[0], setConfirm = t2[1];
+  var t3 = useState(null), msg = t3[0], setMsg = t3[1];
+  var t4 = useState(null), flash = t4[0], setFlash = t4[1];
+  var bal = useCount(s.points || 0, { dur:900 });
+  useEffect(function(){ if (!confirmKey) return; var id = setTimeout(function(){ setConfirm(null); }, 4000); return function(){ clearTimeout(id); }; }, [confirmKey]);
+  useEffect(function(){ if (!msg) return; var id = setTimeout(function(){ setMsg(null); }, 3500); return function(){ clearTimeout(id); }; }, [msg]);
+  useEffect(function(){ if (!flash) return; var id = setTimeout(function(){ setFlash(null); }, 1400); return function(){ clearTimeout(id); }; }, [flash]);
+
+  var owns = function(k){ return (s.owned || []).indexOf(k) >= 0; };
+  var points = s.points || 0;
+  var purchase = function(kind, id, cost, name){
+    props.onBuy(kind, id, cost);
+    setConfirm(null); setFlash(kind + ':' + id);
+    setMsg(kind === 'freeze' ? 'Streak freeze added.' : 'Unlocked ' + name + ' and applied.');
+  };
+  var buyBtn = function(kind, id, cost, name, opts){
+    opts = opts || {};
+    var key = kind + ':' + id;
+    if (opts.locked) return html`<span className="lockline"><${Icon} n="lock" size=${14}/>${opts.locked}</span>`;
+    if (kind !== 'freeze' && owns(key)) {
+      var on = !!opts.active;
+      var label = kind === 'badge' ? (on ? 'Remove' : 'Wear') : (on ? 'In use' : 'Use');
+      return html`<button type="button" className=${'btn btn-ghost sbtn'+(on ? ' on' : '')} disabled=${on && kind !== 'badge'} onClick=${function(){ props.onEquip(kind, id); }}>${on && kind !== 'badge' ? html`<${Icon} n="check" size=${16}/>` : null}${label}</button>`;
+    }
+    if (kind === 'freeze' && (s.freezes || 0) >= FREEZE_MAX) return html`<button type="button" className="btn btn-ghost sbtn" disabled>Fully stocked</button>`;
+    if (points < cost) return html`<button type="button" className="btn btn-ghost sbtn" disabled><${JoyCoin} size=${16}/>Need ${cost - points} more</button>`;
+    if (confirmKey === key) return html`<button type="button" className="btn btn-primary sbtn" onClick=${function(){ purchase(kind, id, cost, name); }}>Confirm · ${cost}</button>`;
+    return html`<button type="button" className="btn btn-ghost sbtn" onClick=${function(){ setConfirm(key); }}><${JoyCoin} size=${16}/>${cost}</button>`;
+  };
+  var cls = function(kind, id, active){ return 'item glass' + (flash === kind + ':' + id ? ' bought' : '') + (active ? ' active' : ''); };
+
+  var panel;
+  if (sub === 'freeze') {
+    panel = html`<div className="panel" key="freeze">
+      <div className=${cls('freeze', 'freeze', false)}>
+        <div className="irow">
+          <div className="fvis" aria-hidden="true"><${Icon} n="snow" size=${30}/></div>
+          <div className="ibody"><h3>Streak Freeze</h3><p>Covers one missed day so your streak survives. It is used automatically.</p><p className="fine">You hold ${s.freezes || 0} of ${FREEZE_MAX}.</p></div>
+        </div>
+        ${buyBtn('freeze', 'freeze', FREEZE_COST, 'Streak Freeze')}
+      </div>
+      <p className="fine">Days saved by a freeze show in ice blue on your stats calendar.</p>
+    </div>`;
+  } else if (sub === 'decks') {
+    panel = html`<div className="panel" key="decks">${DECKS.map(function(d){
+      var pool = DECK_POOLS[d.id], active = (s.activeDeck || 'classic') === d.id;
+      return html`<div key=${d.id} className=${cls('deck', d.id, active)}>
+        <div className="irow">
+          <div className="deckvis" style=${{ background:'linear-gradient(165deg,'+d.hue[0]+','+d.hue[1]+')' }} aria-hidden="true"><${Icon} n="sparkles" size=${20}/></div>
+          <div className="ibody"><h3>${d.name}</h3><p>${d.blurb}</p><p className="fine">${pool.length} affirmations</p></div>
+        </div>
+        <p className="sample">“${pool[hashStr(d.id) % pool.length].text}”</p>
+        ${buyBtn('deck', d.id, d.cost, d.name, { active:active })}
+      </div>`;
+    })}</div>`;
+  } else if (sub === 'themes') {
+    panel = html`<div className="panel" key="themes"><div className="grid2">${Object.keys(PALETTES).map(function(id){
+      var p = PALETTES[id], v = p.dark, active = (s.activePalette || 'sunrise') === id;
+      return html`<div key=${id} className=${cls('theme', id, active)+' tile2'}>
+        <div className="swatch" style=${{ background:'radial-gradient(80% 60% at 50% 100%,'+v['--glow']+'aa,transparent 70%),linear-gradient(170deg,'+v['--bg0']+','+v['--bg1']+' 55%,'+v['--bg2']+')' }} aria-hidden="true"><i style=${{ background:v['--gold'] }}></i></div>
+        <h3>${p.name}</h3>
+        ${buyBtn('theme', id, p.cost, p.name, { active:active })}
+      </div>`;
+    })}</div><p className="fine">Themes recolor the whole app and your shareable card. They work in light and dark mode.</p></div>`;
+  } else {
+    panel = html`<div className="panel" key="badges"><div className="grid2">${BADGES.map(function(b){
+      var locked = b.req && (s.bestStreak || 0) < b.req, active = s.activeBadge === b.id;
+      return html`<div key=${b.id} className=${cls('badge', b.id, active)+' tile2'}>
+        <div className="medalrow"><${BadgeMedal} id=${b.id} size=${60} locked=${!!locked}/></div>
+        <h3>${b.name}</h3>
+        ${b.req ? html`<p className="fine">${locked ? 'Unlocks at a '+b.req+'-day streak' : 'Streak badge earned'}</p>` : null}
+        ${buyBtn('badge', b.id, b.cost, b.name, { active:active, locked: locked ? 'Reach a '+b.req+'-day streak (best: '+(s.bestStreak || 0)+')' : null })}
+      </div>`;
+    })}</div><p className="fine">Your badge appears next to your name on the Today tab and on your profile.</p></div>`;
+  }
+
+  var tabs = [['freeze','Freeze'],['decks','Decks'],['themes','Themes'],['badges','Badges']];
+  return html`<div className="view">
+    <div><h1 className="greet">Joy Shop</h1><p className="sub">Spend your Joy Points on little upgrades.</p></div>
+    <div className="wallet glass">
+      <div><span className="eyebrow">Your balance</span>
+        <div className="wnum"><${JoyCoin} size=${38}/><span aria-live="polite">${bal}</span></div>
+        <span className="fine">${s.lifetimePoints || 0} Joy Points earned all-time</span></div>
+      <div className="wfz glass" aria-label=${(s.freezes || 0)+' streak freezes held'}><${Icon} n="snow" size=${16}/>${s.freezes || 0}</div>
+    </div>
+    <details className="how glass">
+      <summary>How Joy Points work</summary>
+      <ul>
+        <li>Heart an affirmation: +${HEART_PTS}. Passing earns nothing.</li>
+        <li>Finish 3 hearts in a day: +${DAILY_PTS} bonus.</li>
+        <li>Streak multiplier on that day's total: ×1.5 from day 3, ×2 from day 7, ×3 from day 14, ×5 from day 30.</li>
+        <li>Milestone bonuses: day 3 +50, day 7 +100, day 30 +500, day 100 +2,000.</li>
+      </ul>
+    </details>
+    <div className="seg four glass" role="group" aria-label="Shop sections">
+      ${tabs.map(function(t){ return html`<button key=${t[0]} type="button" aria-pressed=${sub === t[0]} onClick=${function(){ setSub(t[0]); setConfirm(null); }}>${t[1]}</button>`; })}
+    </div>
+    ${msg ? html`<div className="msg ok" role="status">${msg}</div>` : null}
+    ${panel}
+  </div>`;
+}
+
 /* ---------- profile ---------- */
 function Profile(props){
   var s = props.s, update = props.update;
@@ -732,7 +1160,7 @@ function Profile(props){
   var initial = (s.name || 'F').trim().charAt(0).toUpperCase();
   return html`<div className="view">
     <div className="prof">
-      <div className="avatar" aria-hidden="true">${initial}</div>
+      <div className="avatarwrap"><div className="avatar" aria-hidden="true">${initial}</div>${s.activeBadge ? html`<span className="abadge"><${BadgeMedal} id=${s.activeBadge} size=${30}/></span>` : null}</div>
       <div style=${{minWidth:0}}><h1 className="greet">${s.name || 'Friend'}</h1><p className="sub">Your joy, so far.</p></div>
     </div>
 
@@ -773,7 +1201,7 @@ function Profile(props){
     </div>
 
     <div className="sec">
-      <h3>Theme</h3>
+      <h3>Appearance</h3>
       <div className="seg glass" role="group" aria-label="Theme">
         ${themes.map(function(t){ return html`<button key=${t[0]} type="button" aria-pressed=${s.theme===t[0]} onClick=${function(){ update({ theme:t[0] }); }}><${Icon} n=${t[2]} size=${16}/>${t[1]}</button>`; })}
       </div>
@@ -830,17 +1258,20 @@ function Stats(props){
   var info = useMemo(function(){
     var counts = {};
     s.history.forEach(function(h){ counts[h.date] = (counts[h.date] || 0) + 1; });
-    var streakSet = {};
-    if (s.streak > 0 && s.lastCompleted) {
-      var base = new Date(s.lastCompleted + 'T00:00:00');
-      for (var n = 0; n < s.streak; n++) { var dd = new Date(base); dd.setDate(dd.getDate() - n); streakSet[dkey(dd)] = true; }
-    }
+    var frozen = {};
+    (s.frozenDays || []).forEach(function(k){ frozen[k] = true; });
     var done = {};
     (s.completedDays || []).forEach(function(k){ done[k] = true; });
     Object.keys(counts).forEach(function(k){ if (counts[k] >= 3) done[k] = true; });
-    Object.keys(streakSet).forEach(function(k){ done[k] = true; });
-    return { counts:counts, streakSet:streakSet, done:done, days:Object.keys(done).length };
-  }, [s.history, s.streak, s.lastCompleted, s.completedDays]);
+    var streakSet = {};
+    if (s.streak > 0 && s.lastCompleted) {
+      var base = new Date(s.lastCompleted + 'T00:00:00');
+      for (var n = 0; n < s.streak; n++) { var dd = new Date(base); dd.setDate(dd.getDate() - n); var kk = dkey(dd); if (!frozen[kk]) { streakSet[kk] = true; done[kk] = true; } }
+      var w = new Date(base);
+      for (var g = 0; g < 800; g++) { var k2 = dkey(w); if (done[k2] || frozen[k2]) { streakSet[k2] = true; w.setDate(w.getDate() - 1); } else break; }
+    }
+    return { counts:counts, streakSet:streakSet, frozen:frozen, done:done, days:Object.keys(done).length };
+  }, [s.history, s.streak, s.lastCompleted, s.completedDays, s.frozenDays]);
 
   var shift = function(delta){ setView(function(v){ var d = new Date(v.y, v.m + delta, 1); return { y:d.getFullYear(), m:d.getMonth() }; }); };
   var away = (ny - view.y) * 12 + (nm - view.m);
@@ -860,11 +1291,12 @@ function Stats(props){
     var sp = inS && col > 0 && !!info.streakSet[prevK];
     var sn = inS && col < 6 && !!info.streakSet[nextK];
     var isDone = !!info.done[key];
+    var fz = !!info.frozen[key];
     var part = !isDone && (info.counts[key] || 0) > 0;
     var future = key > tk;
-    var label = prettyDate(key, { weekday:'long', month:'long', day:'numeric' }) + (inS ? ', in your streak' : isDone ? ', completed' : part ? ', some hearts' : '');
+    var label = prettyDate(key, { weekday:'long', month:'long', day:'numeric' }) + (fz ? ', saved by a streak freeze' : inS ? ', in your streak' : isDone ? ', completed' : part ? ', some hearts' : '');
     return html`<div key=${key} className=${'cell'+(inS?' st':'')+(sp?' sp':'')+(sn?' sn':'')}>
-      <button type="button" className=${'day'+(isDone?' done':'')+(inS?' streak':'')+(key===tk?' today':'')+(sel===key?' sel':'')+(future?' future':'')} aria-pressed=${sel===key} aria-label=${label} onClick=${function(){ setSel(sel === key ? null : key); setLimit(40); }}>${dn}${part ? html`<i className="pdot"></i>` : null}</button>
+      <button type="button" className=${'day'+(fz?' frozen':'')+(isDone&&!fz?' done':'')+(inS&&!fz?' streak':'')+(key===tk?' today':'')+(sel===key?' sel':'')+(future?' future':'')} aria-pressed=${sel===key} aria-label=${label} onClick=${function(){ setSel(sel === key ? null : key); setLimit(40); }}>${dn}${fz ? html`<span className="snowy"><${Icon} n="snow" size=${10}/></span>` : null}${part ? html`<i className="pdot"></i>` : null}</button>
     </div>`;
   });
 
@@ -878,7 +1310,7 @@ function Stats(props){
 
   var sub = s.totalHearts === 0 ? 'Find your first heart on the Today tab.' : 'across ' + info.days + ' completed ' + (info.days === 1 ? 'day' : 'days');
   var streakText = s.streak > 0 ? s.streak + '-day streak' : 'No streak yet';
-  var streakSub = s.streak > 0 ? 'Best so far: ' + s.bestStreak + (s.bestStreak === 1 ? ' day' : ' days') : 'Collect 3 hearts today to start one.';
+  var streakSub = s.streak > 0 ? 'Best so far: ' + s.bestStreak + (s.bestStreak === 1 ? ' day' : ' days') + ((s.freezes || 0) > 0 ? ' · ' + s.freezes + (s.freezes === 1 ? ' freeze' : ' freezes') + ' ready' : '') : 'Collect 3 hearts today to start one.';
 
   return html`<div className="view">
     <div className="sthead">
@@ -910,6 +1342,7 @@ function Stats(props){
       <div className="legend" aria-hidden="true">
         <span><i style=${{ background:'linear-gradient(130deg,var(--btn-a),var(--btn-b))' }}></i>Streak</span>
         <span><i style=${{ background:'linear-gradient(140deg,#ff9bb9,#f0527f)' }}></i>Completed</span>
+        <span><i style=${{ background:'linear-gradient(140deg,#cfeeff,#8fc7ff)' }}></i>Freeze</span>
         <span><i style=${{ background:'var(--heart)', width:'6px', height:'6px' }}></i>Some hearts</span>
       </div>
     </div>
@@ -944,13 +1377,13 @@ function InstallHint(){
 
 /* ---------- app ---------- */
 function App(){
-  var a = useState(function(){ return normalize(load()); }), s = a[0], setS = a[1];
+  var a = useState(function(){ return normalize(migrate(load())); }), s = a[0], setS = a[1];
   var tb = useState('today'), tab = tb[0], setTab = tb[1];
   var nw = useState(Date.now()), now = nw[0], setNow = nw[1];
   var update = useCallback(function(patch){
     setS(function(p){ var n = Object.assign({}, p, typeof patch === 'function' ? patch(p) : patch); save(n); return n; });
   }, []);
-  var reset = function(){ try { localStorage.removeItem(KEY); } catch(e){} setS(normalize(Object.assign({}, DEFAULT))); setTab('today'); };
+  var reset = function(){ try { localStorage.removeItem(KEY); } catch(e){} setS(normalize(Object.assign({}, DEFAULT, { pointsInit:true }))); setTab('today'); };
 
   useEffect(function(){ var id = setInterval(function(){ setNow(Date.now()); }, 1000); return function(){ clearInterval(id); }; }, []);
   useEffect(function(){ var m = document.querySelector('.screen'); if (m) m.scrollTop = 0; }, [tab]);
@@ -959,6 +1392,20 @@ function App(){
     var root = document.documentElement;
     if (s.theme === 'light' || s.theme === 'dark') root.setAttribute('data-theme', s.theme); else root.removeAttribute('data-theme');
   }, [s.theme]);
+  useEffect(function(){
+    var root = document.documentElement;
+    var apply = function(){
+      PALETTE_KEYS.forEach(function(k){ root.style.removeProperty(k); });
+      var p = PALETTES[s.activePalette || 'sunrise'];
+      if (!p || s.activePalette === 'sunrise' || !p.light) return;
+      var dark = s.theme === 'dark' || (s.theme !== 'light' && (!window.matchMedia || window.matchMedia('(prefers-color-scheme: dark)').matches));
+      var vals = dark ? p.dark : p.light;
+      Object.keys(vals).forEach(function(k){ root.style.setProperty(k, vals[k]); });
+    };
+    apply();
+    var mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+    if (mq && mq.addEventListener) { mq.addEventListener('change', apply); return function(){ mq.removeEventListener('change', apply); }; }
+  }, [s.activePalette, s.theme]);
   useEffect(function(){
     if (!s.reminderOn) return;
     var id = setInterval(function(){
@@ -975,6 +1422,33 @@ function App(){
   }, [s.reminderOn, s.reminderTime, s.lastNotified, s.today.done]);
 
   var onDone = function(p){ update(Object.assign({ onboarded:true }, p)); };
+  var goShop = function(){ setTab('shop'); };
+  var buy = function(kind, id, cost){
+    update(function(p){
+      if ((p.points || 0) < cost) return {};
+      var out = { points:(p.points || 0) - cost };
+      if (kind === 'freeze') {
+        if ((p.freezes || 0) >= FREEZE_MAX) return {};
+        out.freezes = (p.freezes || 0) + 1;
+        return out;
+      }
+      var key = kind + ':' + id;
+      if ((p.owned || []).indexOf(key) >= 0) return {};
+      out.owned = (p.owned || []).concat([key]);
+      if (kind === 'theme') out.activePalette = id;
+      if (kind === 'badge') out.activeBadge = id;
+      if (kind === 'deck') { out.activeDeck = id; out.today = Object.assign({}, p.today, { pos:0 }); }
+      return out;
+    });
+  };
+  var equip = function(kind, id){
+    update(function(p){
+      if (kind === 'theme') return { activePalette:id };
+      if (kind === 'badge') return { activeBadge: p.activeBadge === id ? null : id };
+      if (kind === 'deck') return p.activeDeck === id ? {} : { activeDeck:id, today:Object.assign({}, p.today, { pos:0 }) };
+      return {};
+    });
+  };
 
   return html`<div className="app">
     <div className="island" aria-hidden="true"></div>
@@ -983,14 +1457,17 @@ function App(){
       ? html`<${Onboarding} onDone=${onDone}/>`
       : html`<main className="screen">
           ${tab === 'today'
-            ? (s.today.done ? html`<${Complete} key="done" s=${s} now=${now}/>` : html`<${Session} key="session" s=${s} update=${update} now=${now}/>`)
-            : tab === 'stats'
+            ? (s.today.done ? html`<${Complete} key="done" s=${s} now=${now} update=${update} onShop=${goShop}/>` : html`<${Session} key="session" s=${s} update=${update} now=${now} onShop=${goShop}/>`)
+            : tab === 'shop'
+              ? html`<${Shop} key="shop" s=${s} onBuy=${buy} onEquip=${equip}/>`
+              : tab === 'stats'
               ? html`<${Stats} key="stats" s=${s} now=${now} onBack=${function(){ setTab('profile'); }}/>`
               : html`<${Profile} key="profile" s=${s} update=${update} onReset=${reset} onOpenStats=${function(){ setTab('stats'); }}/>`}
           <${InstallHint}/>
         </main>
         <nav className="nav glass" aria-label="Main">
           <button type="button" className="tab" aria-current=${tab==='today'?'page':undefined} onClick=${function(){ setTab('today'); }}><${Icon} n="sun" size=${22}/>Today's Session</button>
+          <button type="button" className="tab" aria-current=${tab==='shop'?'page':undefined} onClick=${function(){ setTab('shop'); }}><${Icon} n="bag" size=${22}/>Joy Shop</button>
           <button type="button" className="tab" aria-current=${(tab==='profile'||tab==='stats')?'page':undefined} onClick=${function(){ setTab('profile'); }}><${Icon} n="user" size=${22}/>My Profile</button>
         </nav>`}
   </div>`;
