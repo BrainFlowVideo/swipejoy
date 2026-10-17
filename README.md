@@ -15,4 +15,3 @@ Open the link in **Safari**, tap **Share**, then **Add to Home Screen**.
 ## Notes
 - Streaks and hearts are stored in each person's own browser, per web address.
 - To ship an update, edit `index.html`, then change `CACHE = 'swipejoy-v1'` in `sw.js` to `swipejoy-v2` and commit.
-- Replace the BrainFlow link (`https://example.com/brainflow`) in `index.html`.
